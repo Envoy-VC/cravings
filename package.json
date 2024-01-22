@@ -24,6 +24,7 @@
     "@typescript-eslint/eslint-plugin": "^6.11.0",
     "@typescript-eslint/parser": "^6.11.0",
     "autoprefixer": "^10.4.14",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.54.0",
     "eslint-config-next": "^14.0.4",
     "postcss": "^8.4.31",
@@ -35,5 +36,10 @@
   "ct3aMetadata": {
     "initVersion": "7.25.2"
   },
-  "packageManager": "pnpm@8.11.0"
+  "packageManager": "pnpm@8.11.0",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
 }
