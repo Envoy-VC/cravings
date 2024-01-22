@@ -1,5 +1,5 @@
 import React from 'react';
-import { currentUser } from '@clerk/nextjs';
+import { currentUser, SignOutButton } from '@clerk/nextjs';
 
 import { UserProfile } from '@clerk/nextjs';
 
@@ -11,6 +11,7 @@ const Home = async () => {
     return (
       <div className=''>
         <UserProfile />
+        <SignOutButton />
       </div>
     );
 };
