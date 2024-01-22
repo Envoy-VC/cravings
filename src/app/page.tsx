@@ -1,8 +1,6 @@
 import React from 'react';
 import { currentUser, SignOutButton } from '@clerk/nextjs';
 
-import { UserProfile } from '@clerk/nextjs';
-
 const Home = async () => {
   const user = await currentUser();
 
@@ -10,7 +8,7 @@ const Home = async () => {
   else
     return (
       <div className=''>
-        <UserProfile />
+        Welcome {user.firstName} {user.lastName}
         <SignOutButton />
       </div>
     );
