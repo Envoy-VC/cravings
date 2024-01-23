@@ -18,6 +18,9 @@ const config = {
       },
     },
     extend: {
+      fontFamily: {
+        sunday: ['Next Sunday', 'sans-serif'],
+      },
       keyframes: {
         'accordion-down': {
           from: { height: '0' },

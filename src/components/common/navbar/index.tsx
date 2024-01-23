@@ -11,7 +11,6 @@ import { CravingsLogo } from '~/assets';
 
 const Navbar = async () => {
   const user = await currentUser();
-
   return (
     <div className='navbar h-[8vh] px-3'>
       <div className='mx-auto flex h-full max-w-screen-2xl items-center justify-between'>
@@ -19,11 +18,11 @@ const Navbar = async () => {
           <Image
             src={CravingsLogo}
             alt='Cravings Logo'
-            width={34}
-            height={34}
+            width={32}
+            height={32}
             className='rounded-full'
           />
-          <div className='mb-1 ml-2 text-2xl font-semibold sm:text-3xl md:text-4xl'>
+          <div className='font-sunday mb-1 ml-2 hidden text-2xl font-semibold sm:block sm:text-3xl md:text-[2.2rem]'>
             cravings
           </div>
         </div>

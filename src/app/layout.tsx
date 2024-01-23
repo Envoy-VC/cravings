@@ -1,8 +1,6 @@
 import '~/styles/globals.css';
 import { ClerkProvider } from '@clerk/nextjs';
 
-import { Navbar } from '~/components/common';
-
 import { GeistSans } from 'geist/font/sans';
 
 export const metadata = {
@@ -19,12 +17,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={`font-sans ${GeistSans.variable}`}>
-        <ClerkProvider>
-          <div>
-            <Navbar />
-            <div className=''>{children}</div>
-          </div>
-        </ClerkProvider>
+        <ClerkProvider>{children}</ClerkProvider>
       </body>
     </html>
   );
