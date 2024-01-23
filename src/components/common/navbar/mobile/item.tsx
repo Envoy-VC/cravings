@@ -72,7 +72,7 @@ const navItems = [
   {
     name: 'Account',
     icon: FaRegUser,
-    link: '/profile',
+    link: '/account',
   },
 ];
 
