@@ -1,5 +1,7 @@
 import '~/styles/globals.css';
-import { ClerkProvider, SignedOut, RedirectToSignIn } from '@clerk/nextjs';
+import { ClerkProvider } from '@clerk/nextjs';
+
+import { Navbar } from '~/components/common';
 
 import { GeistSans } from 'geist/font/sans';
 
@@ -18,10 +20,10 @@ export default function RootLayout({
     <html lang='en'>
       <body className={`font-sans ${GeistSans.variable}`}>
         <ClerkProvider>
-          {children}
-          <SignedOut>
-            <RedirectToSignIn />
-          </SignedOut>
+          <div>
+            <Navbar />
+            <div className=''>{children}</div>
+          </div>
         </ClerkProvider>
       </body>
     </html>

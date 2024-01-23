@@ -1,10 +1,10 @@
 import React from 'react';
-import { SignUp } from '@clerk/nextjs';
+import { SignIn } from '@clerk/nextjs';
 
 const Login = () => {
   return (
     <div className='flex w-full items-center justify-center py-6 md:py-24'>
-      <SignUp
+      <SignIn
         appearance={{
           elements: {
             formButtonPrimary: 'bg-primary hover:bg-secondary',
