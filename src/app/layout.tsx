@@ -2,6 +2,8 @@ import '~/styles/globals.css';
 import { ClerkProvider } from '@clerk/nextjs';
 
 import { GeistSans } from 'geist/font/sans';
+import { Navbar } from '~/components/common';
+import MobileNavbar from '~/components/common/navbar/mobile';
 
 export const metadata = {
   title: 'Create T3 App',
@@ -17,7 +19,13 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={`font-sans ${GeistSans.variable}`}>
-        <ClerkProvider>{children}</ClerkProvider>
+        <ClerkProvider>
+          <div className='py-[7dvh]'>
+            <Navbar />
+            {children}
+            <MobileNavbar />
+          </div>
+        </ClerkProvider>
       </body>
     </html>
   );
