@@ -3,11 +3,12 @@ import { authMiddleware } from '@clerk/nextjs';
 export default authMiddleware({
   publicRoutes: [
     '/',
-    '/restaurants',
+    /^\/restaurant.*/,
     '/search',
     '/account',
     '/partner',
-    '/sign-in',
+    '/auth',
+    /^\/category.*/,
   ],
 });
 

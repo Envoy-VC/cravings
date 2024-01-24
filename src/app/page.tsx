@@ -1,18 +1,12 @@
 import React from 'react';
-import { currentUser, SignOutButton } from '@clerk/nextjs';
 
-const Home = async () => {
-  const user = await currentUser();
+import { CategorySlider } from '~/components/home';
+
+const Home = () => {
   return (
-    <>
-      {user && (
-        <div className=''>
-          Welcome {user.firstName} {user.lastName}
-          <SignOutButton />
-        </div>
-      )}
-      {!user && <div className='h-[400vh]'>no user</div>}
-    </>
+    <div className='mx-auto max-w-screen-2xl px-2 py-10'>
+      <CategorySlider />
+    </div>
   );
 };
 

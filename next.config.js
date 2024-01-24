@@ -5,6 +5,19 @@
 await import('./src/env.js');
 
 /** @type {import("next").NextConfig} */
-const config = {};
+const config = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'msajglqtzcodhiblwghz.supabase.co',
+      },
+      {
+        protocol: 'https',
+        hostname: 'media-assets.swiggy.com',
+      },
+    ],
+  },
+};
 
 export default config;

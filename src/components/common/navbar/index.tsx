@@ -31,7 +31,7 @@ const Navbar = () => {
             height={32}
             className='rounded-full'
           />
-          <div className='mb-1 ml-2 font-sunday text-2xl font-semibold sm:text-3xl md:text-[2.2rem]'>
+          <div className='mb-1 ml-2 font-sunday text-2xl font-medium sm:text-3xl md:text-[2.2rem]'>
             cravings
           </div>
         </Link>
