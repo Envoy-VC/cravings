@@ -64,6 +64,66 @@ export type BooleanFilter = {
   is?: InputMaybe<FilterIs>;
 };
 
+export enum Cuisines {
+  Afghani = 'Afghani',
+  American = 'American',
+  Arabian = 'Arabian',
+  Asian = 'Asian',
+  Bakery = 'Bakery',
+  Beverages = 'Beverages',
+  Biryani = 'Biryani',
+  Burgers = 'Burgers',
+  Cafe = 'Cafe',
+  CakeAndPastries = 'Cake_and_Pastries',
+  Chaat = 'Chaat',
+  Chinise = 'Chinise',
+  Continental = 'Continental',
+  Desserts = 'Desserts',
+  FastFood = 'Fast_food',
+  Goan = 'Goan',
+  Grill = 'Grill',
+  Gujarati = 'Gujarati',
+  HealthyFood = 'Healthy_Food',
+  Hyderabadi = 'Hyderabadi',
+  IceCream = 'Ice_Cream',
+  IceCreamCakes = 'Ice_Cream_Cakes',
+  Indian = 'Indian',
+  Italian = 'Italian',
+  ItalianAmerican = 'Italian_American',
+  Juices = 'Juices',
+  Kebabs = 'Kebabs',
+  Kerla = 'Kerla',
+  Maharashtrian = 'Maharashtrian',
+  Mexican = 'Mexican',
+  Momos = 'Momos',
+  Mughlai = 'Mughlai',
+  NorthIndian = 'North_Indian',
+  Paan = 'Paan',
+  PanAsian = 'Pan_Asian',
+  Pastaas = 'Pastaas',
+  Pizzas = 'Pizzas',
+  Punjabi = 'Punjabi',
+  RollsAndWraps = 'Rolls_and_Wraps',
+  Salads = 'Salads',
+  Seafood = 'Seafood',
+  Snacks = 'Snacks',
+  SouthIndian = 'South_Indian',
+  StreetFood = 'Street_Food',
+  Sushi = 'Sushi',
+  Sweets = 'Sweets',
+  Tandoor = 'Tandoor',
+  Thai = 'Thai',
+  Waffle = 'Waffle'
+}
+
+/** Boolean expression comparing fields on type "Cuisines" */
+export type CuisinesFilter = {
+  eq?: InputMaybe<Cuisines>;
+  in?: InputMaybe<Array<Cuisines>>;
+  is?: InputMaybe<FilterIs>;
+  neq?: InputMaybe<Cuisines>;
+};
+
 /** Boolean expression comparing fields on type "Date" */
 export type DateFilter = {
   eq?: InputMaybe<Scalars['Date']['input']>;
@@ -134,6 +194,7 @@ export type MenuItem = Node & {
   item_name?: Maybe<Scalars['String']['output']>;
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output'];
+  owner?: Maybe<Scalars['String']['output']>;
   price?: Maybe<Scalars['Int']['output']>;
   restaurant?: Maybe<Restaurant>;
   restaurant_id?: Maybe<Scalars['UUID']['output']>;
@@ -176,6 +237,7 @@ export type MenuItemFilter = {
   not?: InputMaybe<MenuItemFilter>;
   /** Returns true if at least one of its inner filters is true, otherwise returns false */
   or?: InputMaybe<Array<MenuItemFilter>>;
+  owner?: InputMaybe<StringFilter>;
   price?: InputMaybe<IntFilter>;
   restaurant_id?: InputMaybe<UuidFilter>;
   updated_at?: InputMaybe<DatetimeFilter>;
@@ -190,6 +252,7 @@ export type MenuItemInsertInput = {
   image?: InputMaybe<Scalars['String']['input']>;
   is_vegetarian?: InputMaybe<Scalars['Boolean']['input']>;
   item_name?: InputMaybe<Scalars['String']['input']>;
+  owner?: InputMaybe<Scalars['String']['input']>;
   price?: InputMaybe<Scalars['Int']['input']>;
   restaurant_id?: InputMaybe<Scalars['UUID']['input']>;
   updated_at?: InputMaybe<Scalars['Datetime']['input']>;
@@ -212,6 +275,7 @@ export type MenuItemOrderBy = {
   image?: InputMaybe<OrderByDirection>;
   is_vegetarian?: InputMaybe<OrderByDirection>;
   item_name?: InputMaybe<OrderByDirection>;
+  owner?: InputMaybe<OrderByDirection>;
   price?: InputMaybe<OrderByDirection>;
   restaurant_id?: InputMaybe<OrderByDirection>;
   updated_at?: InputMaybe<OrderByDirection>;
@@ -226,6 +290,7 @@ export type MenuItemUpdateInput = {
   image?: InputMaybe<Scalars['String']['input']>;
   is_vegetarian?: InputMaybe<Scalars['Boolean']['input']>;
   item_name?: InputMaybe<Scalars['String']['input']>;
+  owner?: InputMaybe<Scalars['String']['input']>;
   price?: InputMaybe<Scalars['Int']['input']>;
   restaurant_id?: InputMaybe<Scalars['UUID']['input']>;
   updated_at?: InputMaybe<Scalars['Datetime']['input']>;
@@ -375,11 +440,12 @@ export type Restaurant = Node & {
   address?: Maybe<Scalars['String']['output']>;
   city?: Maybe<Scalars['String']['output']>;
   created_at?: Maybe<Scalars['Datetime']['output']>;
+  cuisine?: Maybe<Array<Maybe<Cuisines>>>;
   description?: Maybe<Scalars['String']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   id: Scalars['UUID']['output'];
   image?: Maybe<Scalars['String']['output']>;
-  menuItemCollection?: Maybe<MenuItemConnection>;
+  menuItemCollection: MenuItemConnection;
   name?: Maybe<Scalars['String']['output']>;
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output'];
@@ -453,6 +519,7 @@ export type RestaurantInsertInput = {
   address?: InputMaybe<Scalars['String']['input']>;
   city?: InputMaybe<Scalars['String']['input']>;
   created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  cuisine?: InputMaybe<Array<InputMaybe<Cuisines>>>;
   description?: InputMaybe<Scalars['String']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['UUID']['input']>;
@@ -499,6 +566,7 @@ export type RestaurantUpdateInput = {
   address?: InputMaybe<Scalars['String']['input']>;
   city?: InputMaybe<Scalars['String']['input']>;
   created_at?: InputMaybe<Scalars['Datetime']['input']>;
+  cuisine?: InputMaybe<Array<InputMaybe<Cuisines>>>;
   description?: InputMaybe<Scalars['String']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['UUID']['input']>;
@@ -565,5 +633,13 @@ export type GetRestaurantByOwnerQueryVariables = Exact<{
 
 export type GetRestaurantByOwnerQuery = { __typename: 'Query', restaurantCollection?: { __typename: 'RestaurantConnection', edges: Array<{ __typename: 'RestaurantEdge', node: { __typename: 'Restaurant', id: string, owner: string, name?: string | null, image?: string | null, description?: string | null, address?: string | null, city?: string | null, state?: string | null, postal_code?: number | null, phone_number?: string | null, email?: string | null, opening_hours_end?: any | null, opening_hours_start?: any | null, active?: boolean | null } }> } | null };
 
+export type GetRestaurantsQueryVariables = Exact<{
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+}>;
+
+
+export type GetRestaurantsQuery = { __typename: 'Query', restaurantCollection?: { __typename: 'RestaurantConnection', edges: Array<{ __typename: 'RestaurantEdge', cursor: string, node: { __typename: 'Restaurant', id: string, owner: string, name?: string | null, description?: string | null, address?: string | null, city?: string | null, state?: string | null, postal_code?: number | null, phone_number?: string | null, email?: string | null, opening_hours_end?: any | null, opening_hours_start?: any | null, active?: boolean | null, created_at?: string | null, updated_at?: string | null, cuisine?: Array<Cuisines | null> | null } }> } | null };
+
 
 export const GetRestaurantByOwnerDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetRestaurantByOwner"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"owner"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"restaurantCollection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"owner"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"owner"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"owner"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"postal_code"}},{"kind":"Field","name":{"kind":"Name","value":"phone_number"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"opening_hours_end"}},{"kind":"Field","name":{"kind":"Name","value":"opening_hours_start"}},{"kind":"Field","name":{"kind":"Name","value":"active"}}]}}]}}]}}]}}]} as unknown as DocumentNode<GetRestaurantByOwnerQuery, GetRestaurantByOwnerQueryVariables>;
+export const GetRestaurantsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetRestaurants"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"after"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Cursor"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"restaurantCollection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"10"}},{"kind":"Argument","name":{"kind":"Name","value":"after"},"value":{"kind":"Variable","name":{"kind":"Name","value":"after"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"cursor"}},{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"owner"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"postal_code"}},{"kind":"Field","name":{"kind":"Name","value":"phone_number"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"opening_hours_end"}},{"kind":"Field","name":{"kind":"Name","value":"opening_hours_start"}},{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"updated_at"}},{"kind":"Field","name":{"kind":"Name","value":"cuisine"}}]}}]}}]}}]}}]} as unknown as DocumentNode<GetRestaurantsQuery, GetRestaurantsQueryVariables>;

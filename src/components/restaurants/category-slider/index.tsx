@@ -71,6 +71,7 @@ const CategorySlider = () => {
           ))}
         </div>
       </div>
+      <div className='border-[1px] border-neutral-100' />
     </div>
   );
 };

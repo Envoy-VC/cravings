@@ -14,6 +14,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "query GetRestaurantByOwner($owner: String!) {\n    restaurantCollection(first: 1, filter: { owner: { eq: $owner } }) {\n      edges {\n        node {\n          id\n          owner\n          name\n          image\n          description\n          address\n          city\n          state\n          postal_code\n          phone_number\n          email\n          opening_hours_end\n          opening_hours_start\n          active\n        }\n      }\n    }\n  }": types.GetRestaurantByOwnerDocument,
+    "\nquery GetRestaurants($after: Cursor) {\n  restaurantCollection(first: 10, after: $after) {\n    edges {\n      cursor\n      node {\n        id\n        owner\n        name\n        description\n        address\n        city\n        state\n        postal_code\n        phone_number\n        email\n        opening_hours_end\n        opening_hours_start\n        active\n        created_at\n        updated_at\n        cuisine\n      }\n    }\n  }\n}": types.GetRestaurantsDocument,
 };
 
 /**
@@ -34,6 +35,10 @@ export function gql(source: string): unknown;
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "query GetRestaurantByOwner($owner: String!) {\n    restaurantCollection(first: 1, filter: { owner: { eq: $owner } }) {\n      edges {\n        node {\n          id\n          owner\n          name\n          image\n          description\n          address\n          city\n          state\n          postal_code\n          phone_number\n          email\n          opening_hours_end\n          opening_hours_start\n          active\n        }\n      }\n    }\n  }"): (typeof documents)["query GetRestaurantByOwner($owner: String!) {\n    restaurantCollection(first: 1, filter: { owner: { eq: $owner } }) {\n      edges {\n        node {\n          id\n          owner\n          name\n          image\n          description\n          address\n          city\n          state\n          postal_code\n          phone_number\n          email\n          opening_hours_end\n          opening_hours_start\n          active\n        }\n      }\n    }\n  }"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\nquery GetRestaurants($after: Cursor) {\n  restaurantCollection(first: 10, after: $after) {\n    edges {\n      cursor\n      node {\n        id\n        owner\n        name\n        description\n        address\n        city\n        state\n        postal_code\n        phone_number\n        email\n        opening_hours_end\n        opening_hours_start\n        active\n        created_at\n        updated_at\n        cuisine\n      }\n    }\n  }\n}"): (typeof documents)["\nquery GetRestaurants($after: Cursor) {\n  restaurantCollection(first: 10, after: $after) {\n    edges {\n      cursor\n      node {\n        id\n        owner\n        name\n        description\n        address\n        city\n        state\n        postal_code\n        phone_number\n        email\n        opening_hours_end\n        opening_hours_start\n        active\n        created_at\n        updated_at\n        cuisine\n      }\n    }\n  }\n}"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};
