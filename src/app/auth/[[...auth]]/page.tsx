@@ -25,6 +25,7 @@ const Auth = () => {
               card: 'clerk-container shadow-none',
               footerActionLink: 'text-secondary hover:text-primary',
               logoBox: 'hidden sm:block',
+              footerAction: 'hidden'
             },
           }}
         />
