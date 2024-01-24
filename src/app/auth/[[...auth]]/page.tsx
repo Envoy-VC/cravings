@@ -1,23 +1,24 @@
 import React from 'react';
 import Image from 'next/image';
-import { SignUp } from '@clerk/nextjs';
 
-import { BGSignUp } from '~/assets';
+import { SignIn } from '@clerk/nextjs';
 
-const Register = () => {
+import { BGLogin } from '~/assets';
+
+const Auth = () => {
   return (
     <div className='flex min-h-screen w-full flex-col sm:justify-center lg:flex-row lg:justify-start'>
       <div className='flex w-full basis-1/2 sm:hidden lg:flex'>
         <Image
-          src={BGSignUp.src}
-          alt='Background SignUp'
+          src={BGLogin.src}
+          alt='Background Login'
           width={1920}
           height={1080}
           className='h-full w-full object-cover'
         />
       </div>
       <div className='flex w-full basis-1/2 items-center justify-center'>
-        <SignUp
+        <SignIn
           appearance={{
             elements: {
               formButtonPrimary: 'bg-primary hover:bg-secondary',
@@ -32,4 +33,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Auth;

@@ -16,9 +16,9 @@ import { CravingsLogo } from '~/assets';
 import { FaMagnifyingGlass } from 'react-icons/fa6';
 
 const Navbar = () => {
-  const { isLoaded, user, isSignedIn } = useUser();
+  const { user } = useUser();
   const pathname = usePathname();
-  if (pathname === '/login' || pathname === '/sign-up') return null;
+  if (pathname === '/auth') return null;
 
   return (
     <div className='navbar h-[7vh] w-full bg-white px-3'>
@@ -47,14 +47,9 @@ const Navbar = () => {
               <SignOutButton />
             </Button>
           ) : (
-            <>
-              <Button asChild variant='primary'>
-                <Link href='/login'>Login</Link>
-              </Button>
-              <Button asChild variant='secondary'>
-                <Link href='/sign-up'>Sign-up</Link>
-              </Button>
-            </>
+            <Button asChild variant='primary'>
+              <Link href='/auth'>Sign-in</Link>
+            </Button>
           )}
         </div>
       </div>

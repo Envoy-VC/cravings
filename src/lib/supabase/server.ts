@@ -6,17 +6,22 @@ import { cookies } from 'next/headers';
 
 import { env } from '~/env';
 
-const createSupabaseServerClient = (supabaseAccessToken: string) => {
+const createSupabaseServerClient = (supabaseAccessToken?: string) => {
   const cookieStore = cookies();
+
+  const global = supabaseAccessToken && {
+    global: {
+      headers: {
+        Authorization: `Bearer ${supabaseAccessToken}`,
+      },
+    },
+  };
+
   const supabase = createServerClient(
     env.NEXT_PUBLIC_SUPABASE_URL,
     env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     {
-      global: {
-        headers: {
-          Authorization: `Bearer ${supabaseAccessToken}`,
-        },
-      },
+      ...global,
       cookies: {
         get(name: string) {
           return cookieStore.get(name)?.value;
