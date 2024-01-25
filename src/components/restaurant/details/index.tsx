@@ -1,20 +1,25 @@
 import React from 'react';
 import Image from 'next/image';
 
+import { getRestaurantById } from '~/lib/supabase/restaurants';
 import { formatTime } from '~/lib/helpers';
 
-import type { Restaurant } from '~/types';
+interface Props {
+  restaurant_id: string;
+}
 
-const RestaurantDetails = ({
-  name,
-  description,
-  image,
-  cuisine,
-  address,
-  city,
-  opening_hours_start,
-  opening_hours_end,
-}: Restaurant) => {
+const RestaurantDetails = async ({ restaurant_id }: Props) => {
+  const {
+    name,
+    description,
+    address,
+    city,
+    image,
+    cuisine,
+    opening_hours_start,
+    opening_hours_end,
+  } = await getRestaurantById(restaurant_id);
+
   return (
     <div className='flex flex-col-reverse justify-between gap-4 md:flex-row'>
       <div className='flex w-full flex-col justify-between gap-2'>
