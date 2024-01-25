@@ -1,5 +1,7 @@
 // 11:00:00+05:30 - 23:00:00+05:30
 
+import { MenuItem } from '~/types';
+
 export const formatTime = (timeString: string): string => {
   // Parse the input time string
   const [, hours, minutes, , timezoneOffset] =
@@ -23,4 +25,20 @@ export const formatTime = (timeString: string): string => {
   }).format(originalTime);
 
   return localTime;
+};
+
+export const formatMenu = (menu: MenuItem[]) => {
+  const sortedMenu = menu.reduce(
+    (acc, item) => {
+      if (!acc[item.category!]) {
+        acc[item.category!] = [];
+      }
+
+      acc[item.category!]!.push(item);
+      return acc;
+    },
+    {} as Record<string, MenuItem[]>
+  );
+
+  return sortedMenu;
 };

@@ -28,3 +28,17 @@ export const getRestaurantById = async (id: string) => {
 
   return restaurant;
 };
+
+export const getRestaurantMenu = async (id: string) => {
+  const supabase = createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from('MenuItem')
+    .select('*')
+    .eq('restaurant_id', id);
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+};
