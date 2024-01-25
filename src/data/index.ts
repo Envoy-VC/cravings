@@ -1,5 +1,3 @@
-export const basePath = `https://msajglqtzcodhiblwghz.supabase.co/storage/v1/object/public/website-assets/categories`;
-
 export const categories = [
   {
     name: 'Biryani',

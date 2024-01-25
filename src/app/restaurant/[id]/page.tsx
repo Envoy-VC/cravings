@@ -4,6 +4,8 @@ import { getRestaurantById } from '~/lib/supabase/restaurants';
 import { RestaurantDetails } from '~/components/restaurant';
 import { Divider } from '~/components/common';
 
+import { env } from '~/env';
+
 interface Props {
   params: {
     id: string;
@@ -24,7 +26,7 @@ const Restaurants = async ({ params }: Props) => {
 };
 
 export const generateStaticParams = async () => {
-  const res = await fetch('http://localhost:3000/api/restaurants', {
+  const res = await fetch(`${env.NEXT_PUBLIC_BASE_PATH}/api/restaurants`, {
     method: 'POST',
   });
 
