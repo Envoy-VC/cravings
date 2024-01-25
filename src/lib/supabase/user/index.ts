@@ -14,7 +14,7 @@ export const getUserCart = async (userId: string) => {
   }
   const user = data[0];
   if (!user) {
-    throw new Error(`User with id ${userId} not found`);
+    return [];
   }
   return user.cart;
 };

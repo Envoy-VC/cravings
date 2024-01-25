@@ -18,7 +18,6 @@ const Item = ({ id, image, item_name, description, price }: MenuItem) => {
         />
         <div className='flex flex-col gap-2'>
           <div className='text-lg font-semibold'>{item_name}</div>
-          <div>{id}</div>
           <div className='max-w-xs text-xs text-neutral-500 sm:text-sm'>
             {description}
           </div>
