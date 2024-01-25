@@ -1,6 +1,8 @@
 import React from 'react';
 
 import { getRestaurantById } from '~/lib/supabase/restaurants';
+import { RestaurantDetails } from '~/components/restaurant';
+import { Divider } from '~/components/common';
 
 interface Props {
   params: {
@@ -12,8 +14,11 @@ const Restaurants = async ({ params }: Props) => {
   const restaurant = await getRestaurantById(params.id);
 
   return (
-    <div>
-      <div>{restaurant.name} a</div>
+    <div className='mx-auto my-10 w-full max-w-screen-xl px-2'>
+      <RestaurantDetails {...restaurant} />
+      <div className='my-6'>
+        <Divider />
+      </div>
     </div>
   );
 };
