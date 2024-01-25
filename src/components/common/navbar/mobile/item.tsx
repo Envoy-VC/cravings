@@ -60,9 +60,9 @@ const navItems = [
     link: '/',
   },
   {
-    name: 'Food',
+    name: 'Categories',
     icon: FaBurger,
-    link: '/restaurants',
+    link: '/categories',
   },
   {
     name: 'Search',

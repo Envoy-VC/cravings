@@ -43,7 +43,7 @@ const Navbar = () => {
               Search
             </Button>
           </Link>
-          <Link href='/restaurants'>
+          <Link href='/'>
             <Button variant='outline' className='flex items-center gap-2'>
               <MdOutlineRestaurant className='text-lg text-neutral-800' />
               Restaurants
