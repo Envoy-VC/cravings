@@ -1,10 +1,13 @@
 import React from 'react';
 
+import { createClient } from '@supabase/supabase-js';
+
 import { getRestaurantById } from '~/lib/supabase/restaurants';
 import { RestaurantDetails } from '~/components/restaurant';
 import { Divider } from '~/components/common';
 
 import { env } from '~/env';
+import { Database } from '~/types/database.types';
 
 interface Props {
   params: {
@@ -26,18 +29,21 @@ const Restaurants = async ({ params }: Props) => {
 };
 
 export const generateStaticParams = async () => {
-  const res = await fetch(`${env.NEXT_PUBLIC_BASE_PATH}/api/restaurants`, {
-    method: 'POST',
-  });
+  const supabase = createClient<Database>(
+    env.NEXT_PUBLIC_SUPABASE_URL,
+    env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  );
 
-  const data = (await res.json()) as {
-    paths: {
-      slug: string;
-    }[];
-  };
+  const res = await supabase.from('Restaurant').select('id');
 
-  return data.paths.map((r) => ({
-    slug: r.slug,
+  if (!res.data) {
+    return [];
+  }
+
+  return res.data.map((r) => ({
+    params: {
+      id: r.id,
+    },
   }));
 };
 

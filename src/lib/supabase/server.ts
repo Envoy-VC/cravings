@@ -1,11 +1,7 @@
 'use server';
 
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-import {
-  createServerClient,
-  type CookieOptions,
-  serialize,
-} from '@supabase/ssr';
+import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import type { Database } from '~/types/database.types';
 import { cookies } from 'next/headers';
 
