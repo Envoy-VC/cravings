@@ -7,6 +7,7 @@ import React from 'react';
 
 import { useQuery } from '@apollo/client';
 import { GET_RESTAURANTS } from '~/lib/graphql';
+import RestaurantCard from '../card';
 
 const Restaurants = () => {
   const { loading, data } = useQuery(GET_RESTAURANTS, {
@@ -22,10 +23,12 @@ const Restaurants = () => {
         {loading && <div>Loading...</div>}
 
         {data && (
-          <div className='flex w-full flex-row gap-3 overflow-hidden sm:gap-10'>
-            {data.restaurantCollection?.edges?.map((restaurant, index) => (
-              <div key={index}>{restaurant.node.name}</div>
-            ))}
+          <div className='grid grid-cols-1 place-items-center gap-8 place-self-start md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4'>
+            {data.restaurantCollection?.edges?.map((ele) => {
+              const restaurant = ele?.node;
+              console.log(restaurant);
+              return <RestaurantCard key={restaurant.id} {...restaurant} />;
+            })}
           </div>
         )}
       </div>

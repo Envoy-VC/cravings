@@ -24,14 +24,18 @@ export const GET_RESTAURANT_BY_OWNER =
     }
   }`);
 
-export const GET_RESTAURANTS = gql(`
-query GetRestaurants($after: Cursor) {
+export const GET_RESTAURANTS = gql(`query GetRestaurants($after: Cursor) {
   restaurantCollection(first: 10, after: $after) {
+    pageInfo {
+      endCursor
+    }
     edges {
       cursor
       node {
+        nodeId
         id
         owner
+        image
         name
         description
         address

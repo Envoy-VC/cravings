@@ -14,6 +14,7 @@ import { CravingsLogo } from '~/assets';
 
 // Icons
 import { FaMagnifyingGlass } from 'react-icons/fa6';
+import { MdOutlineRestaurant } from 'react-icons/md';
 
 const Navbar = () => {
   const { user } = useUser();
@@ -40,6 +41,12 @@ const Navbar = () => {
             <Button variant='link' className='flex items-center gap-2'>
               <FaMagnifyingGlass />
               Search
+            </Button>
+          </Link>
+          <Link href='/restaurants'>
+            <Button variant='outline' className='flex items-center gap-2'>
+              <MdOutlineRestaurant className='text-lg text-neutral-800' />
+              Restaurants
             </Button>
           </Link>
           {user ? (
