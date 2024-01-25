@@ -1,19 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-'use client';
-
 import React from 'react';
-import { useQuery } from '@apollo/client';
-import { GET_RESTAURANT_BY_OWNER } from '~/lib/graphql';
 
-import { useUser } from '@clerk/nextjs';
+import { auth } from '@clerk/nextjs';
 
-const PartnerPage = () => {
-  const { user } = useUser();
-  const { data } = useQuery(GET_RESTAURANT_BY_OWNER, {
-    variables: {
-      owner: user?.id ?? '',
-    },
-  });
+const PartnerPage = async () => {
+  const { user } = auth();
 
   if (user && user.publicMetadata.role !== 'partner') {
     return (
@@ -25,7 +15,7 @@ const PartnerPage = () => {
     return (
       <div>
         <div>Partner Page</div>
-        <div>{JSON.stringify(data)}</div>
+        <div>{JSON.stringify(user)}</div>
       </div>
     );
   }

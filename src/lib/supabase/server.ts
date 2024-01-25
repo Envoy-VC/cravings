@@ -1,14 +1,18 @@
 'use server';
 
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-import { createServerClient, type CookieOptions } from '@supabase/ssr';
+import {
+  createServerClient,
+  type CookieOptions,
+  serialize,
+} from '@supabase/ssr';
+import type { Database } from '~/types/database.types';
 import { cookies } from 'next/headers';
 
 import { env } from '~/env';
 
 const createSupabaseServerClient = (supabaseAccessToken?: string) => {
   const cookieStore = cookies();
-
   const global = supabaseAccessToken && {
     global: {
       headers: {
@@ -17,7 +21,7 @@ const createSupabaseServerClient = (supabaseAccessToken?: string) => {
     },
   };
 
-  const supabase = createServerClient(
+  const supabase = createServerClient<Database>(
     env.NEXT_PUBLIC_SUPABASE_URL,
     env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     {

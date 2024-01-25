@@ -1,8 +1,6 @@
 import '~/styles/globals.css';
 import { ClerkProvider, ClerkLoaded, ClerkLoading } from '@clerk/nextjs';
 
-import ApolloProviderWrapper from '~/wrapper/apollo';
-
 import { GeistSans } from 'geist/font/sans';
 import { Navbar } from '~/components/common';
 
@@ -24,20 +22,18 @@ export default function RootLayout({
     <html lang='en'>
       <body className={`font-sans ${GeistSans.variable}`}>
         <ClerkProvider>
-          <ApolloProviderWrapper>
-            <ClerkLoading>
-              <LoadingScreen />
-            </ClerkLoading>
-            <ClerkLoaded>
-              <div className='flex h-screen flex-col'>
-                <Navbar />
-                <div className='hide-scrollbar h-full overflow-scroll'>
-                  {children}
-                </div>
-                <MobileNavbar />
+          <ClerkLoading>
+            <LoadingScreen />
+          </ClerkLoading>
+          <ClerkLoaded>
+            <div className='flex h-screen flex-col'>
+              <Navbar />
+              <div className='hide-scrollbar h-full overflow-scroll'>
+                {children}
               </div>
-            </ClerkLoaded>
-          </ApolloProviderWrapper>
+              <MobileNavbar />
+            </div>
+          </ClerkLoaded>
         </ClerkProvider>
       </body>
     </html>
