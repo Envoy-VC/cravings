@@ -16,6 +16,10 @@ const config = {
         protocol: 'https',
         hostname: 'media-assets.swiggy.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'img.clerk.com',
+      },
     ],
   },
 };
