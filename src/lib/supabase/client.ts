@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { createBrowserClient } from '@supabase/ssr';
-import type { Database } from '~/types/database.types';
+import type { Database } from '~/types/database';
 
 import { env } from '~/env';
 

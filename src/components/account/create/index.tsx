@@ -7,7 +7,7 @@ import CreateAccountButton from './button';
 const CreateAccount = async () => {
   const user = await currentUser();
   return (
-    <div className='mx-auto w-full max-w-screen-sm border-2 px-3 py-12'>
+    <div className='mx-auto w-full max-w-screen-sm px-3 py-12'>
       <div className='flex flex-col items-center justify-center gap-2 text-center'>
         <div className='text-2xl font-medium sm:text-3xl'>
           Create your account

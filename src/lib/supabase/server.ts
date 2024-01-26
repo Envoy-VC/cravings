@@ -2,7 +2,7 @@
 
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
-import type { Database } from '~/types/database.types';
+import type { Database } from '~/types/database';
 import { cookies } from 'next/headers';
 
 import { env } from '~/env';

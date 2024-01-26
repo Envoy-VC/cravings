@@ -1,14 +1,14 @@
 import React from 'react';
 import Image from 'next/image';
 
-import { currentUser, auth, SignOutButton } from '@clerk/nextjs';
+import { currentUser, SignOutButton } from '@clerk/nextjs';
 import { Button } from '~/components/ui/button';
 
 const AccountDetails = async () => {
   const user = await currentUser();
   const { firstName, lastName, emailAddresses, imageUrl } = user!;
   return (
-    <div className='mx-auto w-full max-w-screen-sm border-2 px-3 py-12'>
+    <div className='mx-auto w-full max-w-screen-sm px-3 py-12'>
       <div className='flex flex-col items-center justify-center gap-3'>
         <Image
           src={imageUrl ?? ''}

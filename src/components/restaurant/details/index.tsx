@@ -12,12 +12,12 @@ const RestaurantDetails = async ({ restaurant_id }: Props) => {
   const {
     name,
     description,
-    address,
+    street_address,
     city,
     image,
-    cuisine,
-    opening_hours_start,
-    opening_hours_end,
+    cuisine_type,
+    opening_hours,
+    closing_hours,
   } = await getRestaurantById(restaurant_id);
 
   return (
@@ -29,23 +29,22 @@ const RestaurantDetails = async ({ restaurant_id }: Props) => {
             {description}
           </div>
           <div className='text-sm text-neutral-600'>
-            {address}, {city}
+            {street_address}, {city}
           </div>
           <div className='flex flex-row flex-wrap'>
-            {cuisine?.map((ele) => (
+            {cuisine_type?.map((ele) => (
               <div
                 key={ele}
                 className='mb-2 mr-2 rounded-full bg-gray-200 px-2 py-[1px] text-sm text-neutral-800'
               >
-                {ele?.split('_').join(' ')}
+                {ele}
               </div>
             ))}
           </div>
         </div>
         <div className='flex flex-col gap-2'>
           <div className='text-xs font-medium text-neutral-700 sm:text-[1rem]'>
-            Open from {formatTime(opening_hours_start!)} -{' '}
-            {formatTime(opening_hours_end!)}
+            Open from {formatTime(opening_hours)} - {formatTime(closing_hours)}
           </div>
         </div>
       </div>

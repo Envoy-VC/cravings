@@ -4,11 +4,13 @@ import React from 'react';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import clsx from 'clsx';
 
+import type { MenuCategory } from '~/types';
+
 interface Props {
   category: string;
 }
 
-const CategoryPill = ({ category }: Props) => {
+const CategoryPill = ({ category_name }: MenuCategory) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -29,15 +31,17 @@ const CategoryPill = ({ category }: Props) => {
     <div
       className={clsx(
         'cursor-pointer rounded-full px-5 py-2 font-medium',
-        hasCategory && currentCategory === category
+        hasCategory && currentCategory === category_name
           ? 'bg-primary text-white'
           : 'bg-gray-100 text-neutral-700'
       )}
       onClick={() => {
-        router.push(`${pathname}?${createQueryString('category', category)}`);
+        router.push(
+          `${pathname}?${createQueryString('category', category_name)}`
+        );
       }}
     >
-      {category}
+      {category_name}
     </div>
   );
 };

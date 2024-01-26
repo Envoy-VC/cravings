@@ -4,7 +4,7 @@ import React from 'react';
 
 import type { Restaurant } from '~/types';
 
-const RestaurantCard = ({ id, name, image, cuisine }: Restaurant) => {
+const RestaurantCard = ({ id, name, image, cuisine_type }: Restaurant) => {
   return (
     <Link
       className='flex h-full cursor-pointer flex-col gap-2 transition-all duration-200 ease-out hover:scale-95'
@@ -20,12 +20,12 @@ const RestaurantCard = ({ id, name, image, cuisine }: Restaurant) => {
       <div className='flex flex-col gap-[2px]'>
         <div className='text-[1.1rem] font-medium'>{name}</div>
         <div className='flex flex-row flex-wrap'>
-          {cuisine?.map((ele) => (
+          {cuisine_type?.map((ele) => (
             <div
               key={ele}
               className='mb-2 mr-2 rounded-full bg-neutral-100 px-2 py-[1px] text-xs text-neutral-800'
             >
-              {ele?.split('_').join(' ')}
+              {ele}
             </div>
           ))}
         </div>

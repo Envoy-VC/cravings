@@ -2,7 +2,7 @@ import createSupabaseServerClient from '../server';
 
 export const getRestaurants = async () => {
   const supabase = createSupabaseServerClient();
-  const { data, error } = await supabase.from('Restaurant').select('*');
+  const { data, error } = await supabase.from('restaurant').select('*');
   if (error) {
     throw error;
   }
@@ -12,7 +12,7 @@ export const getRestaurants = async () => {
 export const getRestaurantById = async (id: string) => {
   const supabase = createSupabaseServerClient();
   const { data, error } = await supabase
-    .from('Restaurant')
+    .from('restaurant')
     .select('*')
     .eq('id', id);
 
@@ -29,12 +29,26 @@ export const getRestaurantById = async (id: string) => {
   return restaurant;
 };
 
-export const getRestaurantMenu = async (id: string) => {
+export const getRestaurantMenuCategories = async (restaurant_id: string) => {
   const supabase = createSupabaseServerClient();
   const { data, error } = await supabase
-    .from('MenuItem')
+    .from('menu_categories')
     .select('*')
-    .eq('restaurant_id', id);
+    .eq('restaurant_id', restaurant_id);
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+};
+
+export const getCategoryItems = async (category_id: string) => {
+  const supabase = createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from('menu_items')
+    .select('*')
+    .eq('category_id', category_id);
 
   if (error) {
     throw error;

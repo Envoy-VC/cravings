@@ -8,16 +8,24 @@ import { Button } from '~/components/ui/button';
 import { addToCart, removeFromCart } from '~/lib/supabase/user';
 
 import createSupabaseClient from '~/lib/supabase/client';
-import type { User } from '~/types';
+import type { CartItem } from '.';
+import type { UserCart } from '~/types';
 
 import { FaPlus, FaMinus } from 'react-icons/fa6';
 
 interface Props {
   itemId: string;
   count: number;
+  variant_name: string;
+  variant_price: number;
 }
 
-const RealTimeAddToCart = ({ itemId, count: serverCount }: Props) => {
+const RealTimeAddToCart = ({
+  itemId,
+  count: serverCount,
+  variant_name,
+  variant_price,
+}: Props) => {
   const [count, setCount] = React.useState<number>(serverCount);
   const { user } = useUser();
   const supabase = createSupabaseClient();
@@ -30,12 +38,25 @@ const RealTimeAddToCart = ({ itemId, count: serverCount }: Props) => {
         {
           event: 'UPDATE',
           schema: 'public',
-          table: 'User',
-          filter: 'id=eq.' + user?.id,
+          table: 'user_carts',
+          filter: 'user_id=eq.' + user?.id,
         },
         (payload) => {
-          const newData = payload.new as User;
-          setCount(newData.cart.filter((item) => item === itemId).length);
+          const newData = payload.new as UserCart;
+          const cartItems = JSON.parse(JSON.stringify(newData?.items)) as {
+            items: CartItem[];
+          };
+
+          // Find Item with ItemId and get quantity
+          const newCount =
+            cartItems.items.find(
+              (item) =>
+                item.itemId === item.itemId &&
+                item.variant_name === variant_name &&
+                item.variant_price === variant_price
+            )?.quantity ?? 0;
+
+          setCount(newCount);
         }
       )
       .subscribe();
@@ -51,7 +72,9 @@ const RealTimeAddToCart = ({ itemId, count: serverCount }: Props) => {
         <Button
           variant='primary'
           size='icon'
-          onClick={() => addToCart(user?.id ?? '', itemId)}
+          onClick={() =>
+            addToCart(user?.id ?? '', itemId, variant_name, variant_price)
+          }
         >
           <FaCartPlus className='text-xl text-gray-50' />
         </Button>
@@ -59,14 +82,23 @@ const RealTimeAddToCart = ({ itemId, count: serverCount }: Props) => {
         <div className='flex flex-row items-center gap-2'>
           <div
             className='cursor-pointer rounded-lg bg-slate-100 p-1'
-            onClick={() => addToCart(user?.id ?? '', itemId)}
+            onClick={() =>
+              addToCart(user?.id ?? '', itemId, variant_name, variant_price)
+            }
           >
             <FaPlus className='text-xl text-primary' />
           </div>
           <div className='text-lg font-semibold'>{count}</div>
           <div
             className='cursor-pointer rounded-lg bg-slate-100 p-1'
-            onClick={() => removeFromCart(user?.id ?? '', itemId)}
+            onClick={() =>
+              removeFromCart(
+                user?.id ?? '',
+                itemId,
+                variant_name,
+                variant_price
+              )
+            }
           >
             <FaMinus className='text-xl text-primary' />
           </div>
