@@ -13,7 +13,7 @@ const Restaurants = async () => {
 
       <div className='w-full'>
         {data && (
-          <div className='grid grid-cols-1 place-items-center gap-8 place-self-start md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4'>
+          <div className='grid grid-cols-1 place-items-center gap-8 place-self-start sm:place-items-start md:grid-cols-2 lg:grid-cols-3'>
             {data.map((restaurant) => {
               return <RestaurantCard key={restaurant.id} {...restaurant} />;
             })}

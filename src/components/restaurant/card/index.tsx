@@ -4,10 +4,16 @@ import React from 'react';
 
 import type { Restaurant } from '~/types';
 
-const RestaurantCard = ({ id, name, image, cuisine_type }: Restaurant) => {
+const RestaurantCard = ({
+  id,
+  name,
+  image,
+  cuisine_type,
+  street_address,
+}: Restaurant) => {
   return (
     <Link
-      className='flex h-full cursor-pointer flex-col gap-2 transition-all duration-200 ease-out hover:scale-95'
+      className='flex h-full cursor-pointer flex-col gap-2 transition-all duration-200 ease-out hover:scale-[98%]'
       href={`/restaurant/${id}`}
     >
       <img
@@ -15,7 +21,7 @@ const RestaurantCard = ({ id, name, image, cuisine_type }: Restaurant) => {
         alt='Restaurant'
         width={300}
         height={200}
-        className='aspect-video w-full rounded-2xl object-cover'
+        className='aspect-video w-[24rem] rounded-2xl object-cover'
       />
       <div className='flex flex-col gap-[2px]'>
         <div className='text-[1.1rem] font-medium'>{name}</div>
@@ -29,6 +35,7 @@ const RestaurantCard = ({ id, name, image, cuisine_type }: Restaurant) => {
             </div>
           ))}
         </div>
+        <div className='text-sm text-neutral-500'>{street_address}</div>
       </div>
     </Link>
   );

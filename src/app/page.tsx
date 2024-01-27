@@ -4,7 +4,7 @@ import { CategorySlider, Restaurants } from '~/components/restaurant';
 
 const Home = () => {
   return (
-    <div className='mx-auto max-w-screen-2xl px-2 py-10'>
+    <div className='mx-auto max-w-screen-xl px-2 py-10'>
       <CategorySlider />
       <Restaurants />
     </div>

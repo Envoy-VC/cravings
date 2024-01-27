@@ -30,7 +30,7 @@ const CategoryPill = ({ category_name }: MenuCategory) => {
   return (
     <div
       className={clsx(
-        'cursor-pointer rounded-full px-5 py-2 font-medium',
+        'flex w-full cursor-pointer whitespace-nowrap rounded-full px-5 py-2 font-medium',
         hasCategory && currentCategory === category_name
           ? 'bg-primary text-white'
           : 'bg-gray-100 text-neutral-700'

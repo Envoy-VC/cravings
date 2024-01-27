@@ -20,15 +20,17 @@ const RestaurantMenu = async ({ restaurant_id }: Props) => {
         })}
       </div>
       <div className='flex flex-col gap-4 py-4'>
-        {categories.map((category) => {
-          return (
-            <MenuCategory
-              key={category.category_id}
-              category_id={category.category_id}
-              name={category.category_name}
-            />
-          );
-        })}
+        {categories
+          .sort((a, b) => a.order - b.order)
+          .map((category) => {
+            return (
+              <MenuCategory
+                key={category.category_id}
+                category_id={category.category_id}
+                name={category.category_name}
+              />
+            );
+          })}
       </div>
     </div>
   );
