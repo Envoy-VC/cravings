@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 
 import {
@@ -9,23 +11,47 @@ import {
   DialogTrigger,
 } from '~/components/ui/dialog';
 
+import { usePathname } from 'next/navigation';
+
 import { Button } from '~/components/ui/button';
 
 import RealTimeAddToCart from '../realtime';
 import type { Variant } from '../..';
 import type { CartItem } from '..';
+import { FaPlus } from 'react-icons/fa';
 
 interface Props {
   itemId: string;
   items: CartItem[];
   variants: Variant[];
+  restaurant_id: string;
 }
 
-const VariantModal = ({ itemId, items, variants }: Props) => {
+const VariantModal = ({ itemId, items, variants, restaurant_id }: Props) => {
+  const pathName = usePathname();
+  const [totalItems, setTotalItems] = React.useState(
+    items.filter((item) => item.itemId === itemId).length
+  );
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant='primary'>Add</Button>
+        {totalItems > 0 ? (
+          <div className='flex flex-row items-center gap-2'>
+            x{totalItems}
+            {pathName !== '/account/cart' && (
+              <Button variant='primary' size='sm'>
+                Add
+              </Button>
+            )}
+          </div>
+        ) : (
+          <Button variant='primary'>
+            <div className='flex flex-row items-center gap-2'>
+              <FaPlus />
+              Add
+            </div>
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent className='max-w-[384px] !rounded-2xl sm:max-w-[425px]'>
         <DialogHeader>
@@ -57,6 +83,8 @@ const VariantModal = ({ itemId, items, variants }: Props) => {
                   itemId={itemId}
                   variant_name={variant.name}
                   variant_price={variant.price}
+                  setTotalItems={setTotalItems}
+                  restaurant_id={restaurant_id}
                 />
               </div>
             );

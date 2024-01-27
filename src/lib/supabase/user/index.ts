@@ -28,6 +28,7 @@ export const getUserCart = async (userId: string) => {
 export const addToCart = async (
   userId: string,
   itemId: string,
+  restaurant_id: string,
   variant_name: string,
   variant_price: number
 ) => {
@@ -61,10 +62,25 @@ export const addToCart = async (
     });
   }
 
+  let newRestaurantId;
+
+  if (!cart.restaurant_id) {
+    newRestaurantId = restaurant_id;
+  } else {
+    if (cart.restaurant_id !== restaurant_id) {
+      throw new Error('Cannot add items from different restaurants');
+    }
+    newRestaurantId = cart.restaurant_id;
+  }
+
   const { data, error } = await supabase
     .from('user_carts')
     .update({
-      items: prevCart as any,
+      restaurant_id: newRestaurantId,
+      items: {
+        items: prevCart.items as any,
+      },
+      
     })
     .eq('user_id', userId)
     .select('*');
@@ -78,6 +94,7 @@ export const addToCart = async (
 export const removeFromCart = async (
   userId: string,
   itemId: string,
+  restaurant_id: string,
   variant_name: string,
   variant_price: number
 ) => {
@@ -103,10 +120,21 @@ export const removeFromCart = async (
     }
   }
 
+  let newRestaurantId;
+
+  if (prevCart.items.length === 0) {
+    newRestaurantId = null;
+  } else {
+    newRestaurantId = restaurant_id;
+  }
+
   const { data, error } = await supabase
     .from('user_carts')
     .update({
-      items: prevCart as any,
+      restaurant_id: newRestaurantId,
+      items: {
+        items: prevCart.items as any,
+      },
     })
     .eq('user_id', userId)
     .select('*');
@@ -115,4 +143,18 @@ export const removeFromCart = async (
     data,
     error,
   };
+};
+
+export const getUserAddress = async (userId: string) => {
+  const supabase = createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from('user_addresses')
+    .select('*')
+    .eq('user_id', userId);
+
+  if (error) {
+    throw error;
+  }
+
+  return data ?? [];
 };

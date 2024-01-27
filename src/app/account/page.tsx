@@ -1,11 +1,7 @@
 import React from 'react';
 
-const AccountPage = () => {
-  return (
-    <div className='w-full border-2 bg-white'>
-      <div>adada</div>
-    </div>
-  );
+const Dashboard = () => {
+  return <div className='w-full p-3'>Dashboard</div>;
 };
 
-export default AccountPage;
+export default Dashboard;

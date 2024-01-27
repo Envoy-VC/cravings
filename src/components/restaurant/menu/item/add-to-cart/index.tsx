@@ -10,6 +10,7 @@ import VariantModal from './modal';
 interface Props {
   itemId: string;
   variants: Variant[];
+  restaurant_id: string;
 }
 
 export interface CartItem {
@@ -19,11 +20,11 @@ export interface CartItem {
   quantity: number;
 }
 
-const AddToCart = async ({ itemId, variants }: Props) => {
+const AddToCart = async ({ itemId, variants, restaurant_id }: Props) => {
   const { userId } = auth();
   const cart = await getUserCart(userId ?? '');
 
-  const items = JSON.parse(JSON.stringify(cart?.items ?? '{}')) as {
+  const items = JSON.parse(JSON.stringify(cart?.items)) as {
     items: CartItem[];
   };
 
@@ -37,6 +38,7 @@ const AddToCart = async ({ itemId, variants }: Props) => {
       )?.quantity ?? 0;
     return (
       <RealTimeAddToCart
+        restaurant_id={restaurant_id}
         count={count}
         itemId={itemId}
         variant_name={variants[0]!.name}
@@ -46,7 +48,12 @@ const AddToCart = async ({ itemId, variants }: Props) => {
   } else {
     return (
       <div>
-        <VariantModal itemId={itemId} variants={variants} items={items.items} />
+        <VariantModal
+          itemId={itemId}
+          variants={variants}
+          items={items.items}
+          restaurant_id={restaurant_id}
+        />
       </div>
     );
   }

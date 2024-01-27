@@ -56,3 +56,17 @@ export const getCategoryItems = async (category_id: string) => {
 
   return data;
 };
+
+export const getItemDetails = async (item_id: string) => {
+  const supabase = createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from('menu_items')
+    .select('*')
+    .eq('id', item_id);
+
+  if (error) {
+    throw error;
+  }
+
+  return data[0];
+};

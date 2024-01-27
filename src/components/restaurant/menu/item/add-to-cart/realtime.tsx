@@ -8,6 +8,7 @@ import { Button } from '~/components/ui/button';
 import { addToCart, removeFromCart } from '~/lib/supabase/user';
 
 import type { CartItem } from '.';
+import { usePathname } from 'next/navigation';
 
 import { FaPlus, FaMinus } from 'react-icons/fa6';
 
@@ -16,6 +17,8 @@ interface Props {
   count: number;
   variant_name: string;
   variant_price: number;
+  restaurant_id: string;
+  setTotalItems?: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const RealTimeAddToCart = ({
@@ -23,8 +26,11 @@ const RealTimeAddToCart = ({
   count: serverCount,
   variant_name,
   variant_price,
+  restaurant_id,
+  setTotalItems,
 }: Props) => {
   const { user } = useUser();
+  const pathName = usePathname();
 
   const [count, setCount] = React.useState<number>(serverCount);
   const [optimisticCount, setOptimisticCount] = useOptimistic(
@@ -40,17 +46,21 @@ const RealTimeAddToCart = ({
       let res;
       if (type === 'add') {
         setOptimisticCount(optimisticCount + 1);
+        if (setTotalItems) setTotalItems((prev) => prev + 1);
         res = await addToCart(
           user?.id ?? '',
           itemId,
+          restaurant_id,
           variant_name,
           variant_price
         );
       } else {
         setOptimisticCount(optimisticCount - 1);
+        if (setTotalItems) setTotalItems((prev) => prev - 1);
         res = await removeFromCart(
           user?.id ?? '',
           itemId,
+          restaurant_id,
           variant_name,
           variant_price
         );
@@ -93,6 +103,8 @@ const RealTimeAddToCart = ({
           <FaCartPlus className='text-sm text-gray-50' />
           Add
         </Button>
+      ) : pathName === '/account/cart' ? (
+        <div className='font-semibold'>x{optimisticCount}</div>
       ) : (
         <div className='flex flex-row items-center gap-2'>
           <div className='cursor-pointer' onClick={() => updateCart('add')}>

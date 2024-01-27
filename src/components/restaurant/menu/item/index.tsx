@@ -17,8 +17,8 @@ const Item = async ({
   item_name,
   description,
   variants,
+  restaurant_id,
 }: MenuItem) => {
-  const { userId } = auth();
   const user = await currentUser();
   const item_variants = JSON.parse(JSON.stringify(variants)) as Variant[];
 
@@ -42,7 +42,11 @@ const Item = async ({
       </div>
       <div className='flex min-h-max flex-col items-center justify-around'>
         {user && user.publicMetadata.role === 'user' && (
-          <AddToCart itemId={id} variants={item_variants} />
+          <AddToCart
+            itemId={id}
+            variants={item_variants}
+            restaurant_id={restaurant_id}
+          />
         )}
         <div className='font-medium'>₹{item_variants?.at(0)?.price ?? ''}</div>
       </div>

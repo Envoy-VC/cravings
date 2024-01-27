@@ -14,7 +14,7 @@ import {
 } from '~/components/ui/select';
 
 import { MdOutlineSpaceDashboard } from 'react-icons/md';
-import { IoBagHandleOutline } from 'react-icons/io5';
+import { IoBagHandleOutline, IoCartOutline } from 'react-icons/io5';
 import { FaRegAddressBook } from 'react-icons/fa';
 import { MdPayment } from 'react-icons/md';
 
@@ -36,8 +36,8 @@ const NavigationItem = ({
       className='flex !w-full flex-row items-center gap-2 px-2 py-1 md:rounded-l-lg md:px-3 md:py-3'
       href={href}
       style={{
-        backgroundColor: pathname.startsWith(href) ? '#3F72AF' : '',
-        color: pathname.startsWith(href) ? '#FFFFFF' : '',
+        backgroundColor: pathname === href ? '#3F72AF' : '',
+        color: pathname === href ? '#FFFFFF' : '',
       }}
     >
       <Icon className='md:text-xl' />
@@ -104,6 +104,11 @@ export const items = [
     name: 'Dashboard',
     href: '/account',
     icon: MdOutlineSpaceDashboard,
+  },
+  {
+    name: 'Cart',
+    href: '/account/cart',
+    icon: IoCartOutline,
   },
   {
     name: 'Orders',
