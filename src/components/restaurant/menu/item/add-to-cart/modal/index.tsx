@@ -27,7 +27,7 @@ const VariantModal = ({ itemId, items, variants }: Props) => {
       <DialogTrigger asChild>
         <Button variant='primary'>Add</Button>
       </DialogTrigger>
-      <DialogContent className='sm:max-w-[425px]'>
+      <DialogContent className='max-w-[384px] !rounded-2xl sm:max-w-[425px]'>
         <DialogHeader>
           <DialogTitle>Add Item</DialogTitle>
           <DialogDescription>

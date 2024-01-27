@@ -36,19 +36,21 @@ const Navbar = () => {
             cravings
           </div>
         </Link>
-        <div className='hidden flex-row items-center gap-3 sm:flex'>
-          <Link href='/search'>
-            <Button variant='link' className='flex items-center gap-2'>
-              <FaMagnifyingGlass />
-              Search
-            </Button>
-          </Link>
-          <Link href='/'>
-            <Button variant='outline' className='flex items-center gap-2'>
-              <MdOutlineRestaurant className='text-lg text-neutral-800' />
-              Restaurants
-            </Button>
-          </Link>
+        <div className='flex flex-row items-center gap-3'>
+          <div className='hidden flex-row items-center gap-3 sm:flex'>
+            <Link href='/search'>
+              <Button variant='link' className='flex items-center gap-2'>
+                <FaMagnifyingGlass />
+                Search
+              </Button>
+            </Link>
+            <Link href='/'>
+              <Button variant='outline' className='flex items-center gap-2'>
+                <MdOutlineRestaurant className='text-lg text-neutral-800' />
+                Restaurants
+              </Button>
+            </Link>
+          </div>
           {user ? (
             <Button asChild variant='primary'>
               <SignOutButton />
