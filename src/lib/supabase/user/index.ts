@@ -5,7 +5,9 @@
 import createSupabaseServerClient from '../server';
 import type { CartItem } from '~/components/restaurant/menu/item/add-to-cart';
 
-export const getUserCart = async (userId: string) => {
+import { cache } from 'react';
+
+export const getUserCart = cache(async (userId: string) => {
   const supabase = createSupabaseServerClient();
   const { data, error } = await supabase
     .from('user_carts')
@@ -23,7 +25,7 @@ export const getUserCart = async (userId: string) => {
   }
 
   return cart;
-};
+});
 
 export const addToCart = async (
   userId: string,
@@ -80,7 +82,6 @@ export const addToCart = async (
       items: {
         items: prevCart.items as any,
       },
-      
     })
     .eq('user_id', userId)
     .select('*');
@@ -145,7 +146,7 @@ export const removeFromCart = async (
   };
 };
 
-export const getUserAddress = async (userId: string) => {
+export const getUserAddress = cache(async (userId: string) => {
   const supabase = createSupabaseServerClient();
   const { data, error } = await supabase
     .from('user_addresses')
@@ -157,4 +158,4 @@ export const getUserAddress = async (userId: string) => {
   }
 
   return data ?? [];
-};
+});

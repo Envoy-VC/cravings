@@ -10,6 +10,7 @@ import Item from '~/components/restaurant/menu/item';
 import type { MenuItem } from '~/types';
 import Image from 'next/image';
 
+export const revalidate = 5;
 export interface UserCartItem {
   itemId: string;
   quantity: number;

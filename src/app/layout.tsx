@@ -2,7 +2,7 @@ import '~/styles/globals.css';
 import { ClerkProvider, ClerkLoaded, ClerkLoading } from '@clerk/nextjs';
 
 import { GeistSans } from 'geist/font/sans';
-import { Navbar } from '~/components/common';
+import { Navbar, PageProgress } from '~/components/common';
 
 import MobileNavbar from '~/components/common/navbar/mobile';
 import { LoadingScreen } from '~/screens';
@@ -27,6 +27,7 @@ export default function RootLayout({
           </ClerkLoading>
           <ClerkLoaded>
             <div className='flex h-screen flex-col'>
+              <PageProgress />
               <Navbar />
               <div className='hide-scrollbar h-full overflow-scroll'>
                 {children}

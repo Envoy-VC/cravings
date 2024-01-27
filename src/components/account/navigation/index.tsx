@@ -30,11 +30,11 @@ const NavigationItem = ({
   icon: IconType;
 }) => {
   const pathname = usePathname();
-
+  const router = useRouter();
   return (
     <Link
-      className='flex !w-full flex-row items-center gap-2 px-2 py-1 md:rounded-l-lg md:px-3 md:py-3'
       href={href}
+      className='flex !w-full flex-row items-center gap-2 px-2 py-1 md:rounded-l-lg md:px-3 md:py-3'
       style={{
         backgroundColor: pathname === href ? '#3F72AF' : '',
         color: pathname === href ? '#FFFFFF' : '',

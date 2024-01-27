@@ -1,5 +1,7 @@
 import createSupabaseServerClient from '../server';
 
+import { cache } from 'react';
+
 export const getRestaurants = async () => {
   const supabase = createSupabaseServerClient();
   const { data, error } = await supabase.from('restaurant').select('*');
@@ -9,7 +11,7 @@ export const getRestaurants = async () => {
   return data;
 };
 
-export const getRestaurantById = async (id: string) => {
+export const getRestaurantById = cache(async (id: string) => {
   const supabase = createSupabaseServerClient();
   const { data, error } = await supabase
     .from('restaurant')
@@ -27,7 +29,7 @@ export const getRestaurantById = async (id: string) => {
   }
 
   return restaurant;
-};
+});
 
 export const getRestaurantMenuCategories = async (restaurant_id: string) => {
   const supabase = createSupabaseServerClient();
