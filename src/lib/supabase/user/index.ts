@@ -7,7 +7,6 @@ import type { CartItem } from '~/components/restaurant/menu/item/add-to-cart';
 
 export const getUserCart = async (userId: string) => {
   const supabase = createSupabaseServerClient();
-  console.log(userId);
   const { data, error } = await supabase
     .from('user_carts')
     .select('*')
@@ -34,8 +33,6 @@ export const addToCart = async (
 ) => {
   const supabase = createSupabaseServerClient();
   const cart = await getUserCart(userId);
-
-  if (!cart) return;
 
   const prevCart = JSON.parse(JSON.stringify(cart?.items)) as {
     items: CartItem[];
@@ -64,15 +61,18 @@ export const addToCart = async (
     });
   }
 
-  const res = await supabase
+  const { data, error } = await supabase
     .from('user_carts')
     .update({
       items: prevCart as any,
     })
     .eq('user_id', userId)
-    .select();
+    .select('*');
 
-  return JSON.stringify(res.data);
+  return {
+    data,
+    error,
+  };
 };
 
 export const removeFromCart = async (
@@ -83,8 +83,6 @@ export const removeFromCart = async (
 ) => {
   const supabase = createSupabaseServerClient();
   const cart = await getUserCart(userId);
-
-  if (!cart) return;
 
   const prevCart = JSON.parse(JSON.stringify(cart?.items)) as {
     items: CartItem[];
@@ -105,13 +103,16 @@ export const removeFromCart = async (
     }
   }
 
-  const res = await supabase
+  const { data, error } = await supabase
     .from('user_carts')
     .update({
       items: prevCart as any,
     })
     .eq('user_id', userId)
-    .select();
+    .select('*');
 
-  return JSON.stringify(res.data);
+  return {
+    data,
+    error,
+  };
 };

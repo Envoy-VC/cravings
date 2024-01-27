@@ -1,15 +1,13 @@
 'use client';
 
-import React from 'react';
+import React, { useOptimistic } from 'react';
 
 import { useUser } from '@clerk/nextjs';
 import { FaCartPlus } from 'react-icons/fa';
 import { Button } from '~/components/ui/button';
 import { addToCart, removeFromCart } from '~/lib/supabase/user';
 
-import createSupabaseClient from '~/lib/supabase/client';
 import type { CartItem } from '.';
-import type { UserCart } from '~/types';
 
 import { FaPlus, FaMinus } from 'react-icons/fa6';
 
@@ -26,82 +24,88 @@ const RealTimeAddToCart = ({
   variant_name,
   variant_price,
 }: Props) => {
-  const [count, setCount] = React.useState<number>(serverCount);
   const { user } = useUser();
-  const supabase = createSupabaseClient();
 
-  React.useEffect(() => {
-    const channel = supabase
-      .channel(`realtime cart count ${itemId}`)
-      .on(
-        'postgres_changes',
-        {
-          event: 'UPDATE',
-          schema: 'public',
-          table: 'user_carts',
-          filter: 'user_id=eq.' + user?.id,
-        },
-        (payload) => {
-          const newData = payload.new as UserCart;
-          const cartItems = JSON.parse(JSON.stringify(newData?.items)) as {
-            items: CartItem[];
-          };
+  const [count, setCount] = React.useState<number>(serverCount);
+  const [optimisticCount, setOptimisticCount] = useOptimistic(
+    count,
+    (state, newState: number) => {
+      return newState;
+    }
+  );
+  const [isAdding, setIsAdding] = React.useState<boolean>(false);
+  const updateCart = async (type: 'add' | 'remove') => {
+    try {
+      setIsAdding(true);
+      let res;
+      if (type === 'add') {
+        setOptimisticCount(optimisticCount + 1);
+        res = await addToCart(
+          user?.id ?? '',
+          itemId,
+          variant_name,
+          variant_price
+        );
+      } else {
+        setOptimisticCount(optimisticCount - 1);
+        res = await removeFromCart(
+          user?.id ?? '',
+          itemId,
+          variant_name,
+          variant_price
+        );
+      }
 
-          // Find Item with ItemId and get quantity
-          const newCount =
-            cartItems.items.find(
-              (item) =>
-                item.itemId === item.itemId &&
-                item.variant_name === variant_name &&
-                item.variant_price === variant_price
-            )?.quantity ?? 0;
+      const { data, error } = res;
+      if (error) throw error;
+      if (!data) return;
+      const cart = data[0]!;
+      const items = JSON.parse(JSON.stringify(cart?.items ?? '{}')) as {
+        items: CartItem[];
+      };
 
-          setCount(newCount);
-        }
-      )
-      .subscribe();
+      const count =
+        items.items.find(
+          (item) =>
+            item.itemId === itemId &&
+            item.variant_name === variant_name &&
+            item.variant_price === variant_price
+        )?.quantity ?? 0;
 
-    return () => {
-      void supabase.removeChannel(channel);
-    };
-  }, [supabase]);
+      setCount(count);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsAdding(false);
+    }
+  };
 
   return (
     <div className='flex flex-col'>
       {count === 0 ? (
         <Button
           variant='primary'
-          size='icon'
-          onClick={() =>
-            addToCart(user?.id ?? '', itemId, variant_name, variant_price)
-          }
+          size='sm'
+          className='flex flex-row gap-2'
+          onClick={() => updateCart('add')}
+          disabled={isAdding}
         >
-          <FaCartPlus className='text-xl text-gray-50' />
+          <FaCartPlus className='text-sm text-gray-50' />
+          Add
         </Button>
       ) : (
         <div className='flex flex-row items-center gap-2'>
-          <div
-            className='cursor-pointer rounded-lg bg-slate-100 p-1'
-            onClick={() =>
-              addToCart(user?.id ?? '', itemId, variant_name, variant_price)
-            }
-          >
-            <FaPlus className='text-xl text-primary' />
+          <div className='cursor-pointer' onClick={() => updateCart('add')}>
+            <FaPlus className='text-primary' />
           </div>
-          <div className='text-lg font-semibold'>{count}</div>
-          <div
-            className='cursor-pointer rounded-lg bg-slate-100 p-1'
-            onClick={() =>
-              removeFromCart(
-                user?.id ?? '',
-                itemId,
-                variant_name,
-                variant_price
-              )
-            }
-          >
-            <FaMinus className='text-xl text-primary' />
+          <div className='font-semibold'>{optimisticCount}</div>
+          <div className='cursor-pointer' onClick={() => updateCart('remove')}>
+            <FaMinus className='text-primary' />
           </div>
+          <div
+            className='h-2 w-2 animate-pulse rounded-full'
+            style={{ backgroundColor: isAdding ? '#F87171' : 'transparent' }}
+          ></div>
         </div>
       )}
     </div>

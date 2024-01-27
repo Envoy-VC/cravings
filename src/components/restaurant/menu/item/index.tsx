@@ -6,6 +6,11 @@ import AddToCart from './add-to-cart';
 
 import { auth, currentUser } from '@clerk/nextjs';
 
+export interface Variant {
+  name: string;
+  price: number;
+}
+
 const Item = async ({
   id,
   item_image,
@@ -15,13 +20,8 @@ const Item = async ({
 }: MenuItem) => {
   const { userId } = auth();
   const user = await currentUser();
-  const item_variant = JSON.parse(JSON.stringify(variants)) as Record<
-    string,
-    {
-      name: string;
-      price: number;
-    }
-  >;
+  const item_variants = JSON.parse(JSON.stringify(variants)) as Variant[];
+
   return (
     <div className='flex h-full select-none flex-row justify-between gap-4'>
       <div className='flex flex-row gap-3'>
@@ -42,15 +42,9 @@ const Item = async ({
       </div>
       <div className='flex min-h-max flex-col items-center justify-around'>
         {user && user.publicMetadata.role === 'user' && (
-          <AddToCart
-            itemId={id}
-            variant_name={item_variant?.['1']?.name ?? ''}
-            variant_price={item_variant?.['1']?.price ?? 0}
-          />
+          <AddToCart itemId={id} variants={item_variants} />
         )}
-        <div className='text-lg font-semibold'>
-          ₹{item_variant?.['1']?.price ?? ''}
-        </div>
+        <div className='font-medium'>₹{item_variants?.at(0)?.price ?? ''}</div>
       </div>
     </div>
   );
