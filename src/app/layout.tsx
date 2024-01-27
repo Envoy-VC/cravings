@@ -7,6 +7,7 @@ import { Toaster } from '~/components/ui/sonner';
 
 import MobileNavbar from '~/components/common/navbar/mobile';
 import { LoadingScreen } from '~/screens';
+import Script from 'next/script';
 
 export const metadata = {
   title: 'Create T3 App',
@@ -39,6 +40,7 @@ export default function RootLayout({
         </ClerkProvider>
         <Toaster />
       </body>
+      <Script src='https://checkout.razorpay.com/v1/checkout.js' />
     </html>
   );
 }

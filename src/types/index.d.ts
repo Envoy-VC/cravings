@@ -10,3 +10,10 @@ export type UserCart = Database['public']['Tables']['user_carts']['Row'];
 export type UserAddress = Database['public']['Tables']['user_addresses']['Row'];
 
 export type Order = Database['public']['Tables']['user_orders']['Row'];
+
+declare global {
+  interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    Razorpay: any;
+  }
+}

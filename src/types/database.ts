@@ -147,6 +147,7 @@ export interface Database {
           state: string
           street_address: string
           updated_at: string
+          upi_id: string
           website_url: string
         }
         Insert: {
@@ -168,6 +169,7 @@ export interface Database {
           state?: string
           street_address?: string
           updated_at?: string
+          upi_id?: string
           website_url?: string
         }
         Update: {
@@ -189,6 +191,7 @@ export interface Database {
           state?: string
           street_address?: string
           updated_at?: string
+          upi_id?: string
           website_url?: string
         }
         Relationships: [

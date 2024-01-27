@@ -147,20 +147,6 @@ export const removeFromCart = async (
   };
 };
 
-export const getUserAddress = cache(async (userId: string) => {
-  const supabase = createSupabaseServerClient();
-  const { data, error } = await supabase
-    .from('user_addresses')
-    .select('*')
-    .eq('user_id', userId);
-
-  if (error) {
-    throw error;
-  }
-
-  return data ?? [];
-});
-
 export const getUserAddresses = async (userId: string) => {
   const supabase = createSupabaseServerClient();
   const { data, error } = await supabase
