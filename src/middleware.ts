@@ -18,7 +18,7 @@ export default authMiddleware({
     /^\/restaurant.*$/,
     /^\/api.*$/,
     /^\/search.*$/,
-    /^\/account.*$/,
+    '/account',
     /^\/categories.*$/,
   ],
 });

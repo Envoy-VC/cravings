@@ -52,9 +52,15 @@ const Navbar = () => {
             </Link>
           </div>
           {user ? (
-            <Button asChild variant='primary'>
-              <SignOutButton />
-            </Button>
+            <Link href='/account'>
+              <Image
+                src={user?.imageUrl}
+                alt='Profile Image'
+                width={32}
+                height={32}
+                className='rounded-full'
+              />
+            </Link>
           ) : (
             <Button asChild variant='primary'>
               <Link href='/auth'>Sign-in</Link>
