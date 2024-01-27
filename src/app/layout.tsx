@@ -3,6 +3,7 @@ import { ClerkProvider, ClerkLoaded, ClerkLoading } from '@clerk/nextjs';
 
 import { GeistSans } from 'geist/font/sans';
 import { Navbar, PageProgress } from '~/components/common';
+import { Toaster } from '~/components/ui/sonner';
 
 import MobileNavbar from '~/components/common/navbar/mobile';
 import { LoadingScreen } from '~/screens';
@@ -36,6 +37,7 @@ export default function RootLayout({
             </div>
           </ClerkLoaded>
         </ClerkProvider>
+        <Toaster />
       </body>
     </html>
   );

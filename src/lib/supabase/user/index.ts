@@ -2,10 +2,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 'use server';
 
+import { cache } from 'react';
+
 import createSupabaseServerClient from '../server';
 import type { CartItem } from '~/components/restaurant/menu/item/add-to-cart';
-
-import { cache } from 'react';
+import type { AddressForm } from '~/components/account/add-address';
 
 export const getUserCart = cache(async (userId: string) => {
   const supabase = createSupabaseServerClient();
@@ -159,3 +160,17 @@ export const getUserAddress = cache(async (userId: string) => {
 
   return data ?? [];
 });
+
+export const addAddress = async (userId: string, data: AddressForm) => {
+  const supabase = createSupabaseServerClient();
+  const { error } = await supabase.from('user_addresses').insert([
+    {
+      user_id: userId,
+      ...data,
+    },
+  ]);
+
+  if (error) {
+    throw error;
+  }
+};
