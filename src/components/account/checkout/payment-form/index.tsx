@@ -15,7 +15,11 @@ import {
   SelectValue,
 } from '~/components/ui/select';
 
-import type { UserAddress } from '~/types';
+import { useUser } from '@clerk/nextjs';
+
+import { createOrder } from '~/lib/supabase/user';
+
+import type { UserAddress, UserCart } from '~/types';
 
 import { toast } from 'sonner';
 import { Button } from '~/components/ui/button';
@@ -30,22 +34,40 @@ export interface RazorpayResponse {
 interface Props {
   amount: number;
   addresses: UserAddress[];
+  cart: UserCart;
 }
 
-const PaymentForm = ({ addresses, amount }: Props) => {
+const PaymentForm = ({ addresses, amount, cart }: Props) => {
+  const { user } = useUser();
   const paymentId = React.useRef<string | null>(null);
   const [address, setAddress] = React.useState<string | null>(null);
   const [paymentMethod, setPaymentMethod] = React.useState<'upi' | 'cod'>(
     'upi'
   );
 
+  const [isCreating, setIsCreating] = React.useState<boolean>(false);
+
   const placeOrder = async () => {
     try {
+      setIsCreating(true);
       if (!address) {
         toast.error('Please select a delivery address');
         return;
       }
-    } catch (error) {}
+      await createOrder({
+        address_id: address,
+        user_id: user?.id ?? '',
+        restaurant_id: cart.restaurant_id ?? '',
+        payment_mode: 'cod',
+        items_ordered: cart.items,
+        order_total: amount,
+        is_paid: false,
+      });
+      toast.success('Order Placed');
+    } catch (error) {
+      toast.error('Something went wrong');
+      console.log(error);
+    }
   };
 
   const placeOrderWithUPI = async () => {
@@ -107,15 +129,31 @@ const PaymentForm = ({ addresses, amount }: Props) => {
           };
 
           if (success) {
-            alert('Success');
+            await createOrder({
+              address_id: address,
+              user_id: user?.id ?? '',
+              restaurant_id: cart.restaurant_id ?? '',
+              payment_mode: 'upi',
+              items_ordered: cart.items,
+              order_total: amount,
+              is_paid: true,
+            });
+            toast.success('Order Placed');
           } else {
-            alert('Failed');
+            toast.error('Payment Failed');
           }
+          setIsCreating(false);
+          // reload the page
+          window.location.reload();
         },
       };
       const paymentObject = new window.Razorpay(options);
       paymentObject.open();
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+      toast.error('Something went wrong');
+      setIsCreating(false);
+    }
   };
 
   return (
@@ -162,6 +200,7 @@ const PaymentForm = ({ addresses, amount }: Props) => {
             await placeOrder();
           }
         }}
+        disabled={isCreating}
       >
         Place Order
       </Button>

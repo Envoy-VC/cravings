@@ -7,6 +7,8 @@ import { cache } from 'react';
 import createSupabaseServerClient from '../server';
 import type { CartItem } from '~/components/restaurant/menu/item/add-to-cart';
 import type { AddressForm } from '~/components/account/add-address';
+import type { Restaurant } from '~/types';
+import type { Json } from '~/types/database';
 
 export const getUserCart = cache(async (userId: string) => {
   const supabase = createSupabaseServerClient();
@@ -173,4 +175,72 @@ export const addAddress = async (userId: string, data: AddressForm) => {
   if (error) {
     throw error;
   }
+};
+
+export const getRestaurantByOwner = async (userId: string) => {
+  const supabase = createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from('restaurant')
+    .select('*')
+    .eq('owner_id', userId);
+
+  if (error) {
+    throw error;
+  }
+
+  return data.at(0) as Restaurant;
+};
+
+interface CreateOrderArgs {
+  user_id: string;
+  restaurant_id: string;
+  address_id: string;
+  items_ordered: Json;
+  order_total: number;
+  payment_mode: 'cod' | 'upi';
+  is_paid: boolean;
+}
+export const createOrder = async ({
+  user_id,
+  restaurant_id,
+  address_id,
+  items_ordered,
+  order_total,
+  payment_mode,
+  is_paid,
+}: CreateOrderArgs) => {
+  const supabase = createSupabaseServerClient();
+
+  const { error } = await supabase.from('user_orders').insert([
+    {
+      user_id,
+      restaurant_id,
+      address_id,
+      is_accepted: false,
+      items_ordered: items_ordered as any,
+      order_total,
+      payment_mode,
+      is_paid,
+      order_status: 'pending',
+    },
+  ]);
+
+  // clear user cart
+  await supabase
+    .from('user_carts')
+    .update({
+      items: {
+        items: [],
+      },
+      restaurant_id: null,
+    })
+    .eq('user_id', user_id);
+
+  if (error) {
+    throw error;
+  }
+
+  return {
+    success: true,
+  };
 };

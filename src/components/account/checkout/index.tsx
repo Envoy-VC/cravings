@@ -46,6 +46,7 @@ const Checkout = async ({ cart }: Props) => {
       </div>
       <PaymentForm
         addresses={addresses}
+        cart={cart}
         amount={items.reduce(
           (acc, item) => acc + item.quantity * item.variant_price,
           0
