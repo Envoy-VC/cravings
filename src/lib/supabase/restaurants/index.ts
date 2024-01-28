@@ -1,3 +1,4 @@
+import createSupabaseClient from '../client';
 import createSupabaseServerClient from '../server';
 
 import { cache } from 'react';
@@ -72,3 +73,33 @@ export const getItemDetails = async (item_id: string) => {
 
   return data[0];
 };
+
+export const getOrdersForRestaurant = cache(async (restaurant_id: string) => {
+  const supabase = createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from('user_orders')
+    .select('*')
+    .eq('restaurant_id', restaurant_id);
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+});
+
+export const updateOrderStatus = cache(
+  async (order_id: string, status: string) => {
+    const supabase = createSupabaseClient();
+    const { error } = await supabase
+      .from('user_orders')
+      .update({
+        order_status: status,
+      })
+      .eq('order_id', order_id);
+
+    if (error) {
+      throw error;
+    }
+  }
+);

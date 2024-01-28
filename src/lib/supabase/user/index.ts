@@ -221,7 +221,7 @@ export const createOrder = async ({
       order_total,
       payment_mode,
       is_paid,
-      order_status: 'pending',
+      order_status: 'is_pending',
     },
   ]);
 
