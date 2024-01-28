@@ -10,7 +10,11 @@ const Account = async () => {
   const user = await currentUser();
   const { userId } = auth();
 
-  if (userId && user?.publicMetadata?.role === 'user') {
+  if (
+    userId &&
+    (user?.publicMetadata?.role === 'user' ||
+      user?.publicMetadata?.role === 'partner')
+  ) {
     return (
       <div className='mx-auto w-full max-w-screen-md px-3 py-12'>
         <AccountDetails />
