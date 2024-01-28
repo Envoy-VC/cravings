@@ -1,21 +1,24 @@
 import React from 'react';
 
-import { auth } from '@clerk/nextjs';
+import { currentUser } from '@clerk/nextjs';
+
+import { CreateRestaurant } from '~/components/partner';
 
 const PartnerPage = async () => {
-  const { user } = auth();
+  const user = await currentUser();
 
-  if (user && user.publicMetadata.role !== 'partner') {
+  if (user && user?.publicMetadata.role !== 'user') {
     return (
-      <div>
-        <div>Sign Up to become a Partner </div>
+      <div className='mx-auto max-w-screen-xl px-3 py-12'>
+        <CreateRestaurant />
       </div>
     );
   } else {
     return (
       <div>
         <div>Partner Page</div>
-        <div>{JSON.stringify(user)}</div>
+        {user?.firstName}
+        <div>{JSON.stringify(user?.publicMetadata)}</div>
       </div>
     );
   }

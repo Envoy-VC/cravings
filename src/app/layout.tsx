@@ -8,6 +8,7 @@ import { Toaster } from '~/components/ui/sonner';
 import MobileNavbar from '~/components/common/navbar/mobile';
 import { LoadingScreen } from '~/screens';
 import Script from 'next/script';
+import Footer from '~/components/common/footer';
 
 export const metadata = {
   title: 'Create T3 App',
@@ -34,13 +35,18 @@ export default function RootLayout({
               <div className='hide-scrollbar h-full overflow-scroll'>
                 {children}
               </div>
+              <Footer />
               <MobileNavbar />
             </div>
           </ClerkLoaded>
         </ClerkProvider>
         <Toaster />
+        <Script
+          src='https://checkout.razorpay.com/v1/checkout.js'
+          strategy='beforeInteractive'
+          id='razorpay-script'
+        />
       </body>
-      <Script src='https://checkout.razorpay.com/v1/checkout.js' />
     </html>
   );
 }
