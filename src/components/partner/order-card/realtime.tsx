@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import type { MenuItem, Order } from '~/types';
+import type { MenuItem, Order, UserAddress } from '~/types';
 import Image from 'next/image';
 import createSupabaseClient from '~/lib/supabase/client';
 import type { CartItem } from '~/components/restaurant/menu/item/add-to-cart';
@@ -21,9 +21,10 @@ import { toast } from 'sonner';
 interface Props {
   serverOrder: Order;
   details: MenuItem[];
+  address: UserAddress;
 }
 
-const RealtimeOrder = ({ serverOrder, details }: Props) => {
+const RealtimeOrder = ({ serverOrder, details, address }: Props) => {
   const supabase = createSupabaseClient();
 
   const [order, setOrder] = React.useState<Order>(serverOrder);
@@ -105,7 +106,14 @@ const RealtimeOrder = ({ serverOrder, details }: Props) => {
             </div>
           ))}
         </div>
-        <div className='my-5 flex flex-row items-center gap-2'>
+        <div className='my-5'>
+          <div className='font-medium text-slate-700'>Address</div>
+          <div className='font-regular text-sm text-gray-600'>
+            {address.address_line1}, {address.address_line2}, {address.city},{' '}
+            {address.state}, {address.postal_code}
+          </div>
+        </div>
+        <div className='flex flex-row items-center gap-2'>
           <div className='font-medium text-slate-700'>Change Order Status</div>
           <Select
             onValueChange={async (value) => {
